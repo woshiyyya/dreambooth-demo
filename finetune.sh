@@ -2,7 +2,7 @@
 # shellcheck disable=SC2086
 
 # Install dependecies
-pip install -Ur --user requirements.txt
+pip install --user -Ur requirements.txt
 
 # Step 0: Set up experiment directory
 export DATA_PREFIX="/mnt/local_storage/artifacts"

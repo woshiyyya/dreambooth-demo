@@ -11,18 +11,26 @@ python src/generate.py \
 
 import os
 import torch
+import random
 import hashlib
+import numpy as np
 from os import path
 from flags import run_model_flags
 from diffusers import DiffusionPipeline
 
-import pytorch_lightning as pl
-pl.seed_everything(888)
-
 import warnings
 warnings.filterwarnings("ignore")
 
+def seed_everything(seed):
+    os.environ["PL_GLOBAL_SEED"] = str(seed)
+    random.seed(seed)
+    np.random.seed(seed)
+    torch.manual_seed(seed)
+    torch.cuda.manual_seed_all(seed)
+
 def run(args):
+    seed_everything(888)
+
     print(f"Loading model from {args.model_dir}")
     pipeline = DiffusionPipeline.from_pretrained(
         args.model_dir, torch_dtype=torch.float16
@@ -40,7 +48,7 @@ def run(args):
                 hash_image = hashlib.sha1(image.tobytes()).hexdigest()
                 image_filename = path.join(args.output_dir, f"{i}-{hash_image}.jpg")
                 image.save(image_filename)
-                print(f"Saved {image_filename}")
+                print(f"Saved new image: {image_filename}")
 
 
 if __name__ == "__main__":

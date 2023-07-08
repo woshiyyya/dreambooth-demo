@@ -1,8 +1,4 @@
 #!/bin/bash
-# shellcheck disable=SC2086
-
-# Install dependecies
-pip install -Ur --user requirements.txt
 
 # Set Environment Variables
 export TF_CPP_MIN_LOG_LEVEL="3"
